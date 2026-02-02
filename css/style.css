@@ -92,3 +92,9 @@ button {
     color: #ff4d4d;
     text-decoration: none;
 }
+
+@media (max-width: 600px) {
+    .buttons {
+        gap: 20px;
+    }
+}
