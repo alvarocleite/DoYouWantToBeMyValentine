@@ -1,0 +1,94 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #ffe6e6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden; /* Prevent scrollbars when button moves */
+}
+
+.container {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #ff4d4d;
+    margin-bottom: 2rem;
+}
+
+.buttons {
+    position: relative; /* Needed for absolute positioning context if we wanted it, but using viewport for full runaway */
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+    /* Ensure height is preserved so buttons don't collapse */
+    min-height: 60px; 
+}
+
+button {
+    font-size: 1.2rem;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+#yes-btn {
+    background-color: #ff4d4d;
+    color: white;
+}
+
+#yes-btn:hover {
+    background-color: #e60000;
+    transform: scale(1.1);
+}
+
+#no-btn {
+    background-color: #ddd;
+    color: #333;
+    /* transition: all 0.2s ease; - As requested in GEMINI.md */
+    transition: all 0.2s ease; 
+}
+
+/* Initial position for No button - slightly tricky with absolute. 
+   Let's actually handle initial layout with JS or just keep it in flow initially 
+   and switch to absolute on first hover, OR just set it absolute relative to body.
+   For simplicity and "runaway" effect, absolute positioning on the body works best
+   once it starts moving. But for initial layout, we might want it centered.
+   
+   However, the spec says "To achieve the 'unclickable' effect, the button uses absolute positioning."
+*/
+
+/* Resetting #no-btn for initial static layout to look nice next to Yes, 
+   then JS will likely take over absolute positioning. 
+   But wait, if it's absolute, it removes from flow. 
+   Let's style it initially to be roughly in place, or handle layout in JS.
+   Actually, let's keep it simple: Start static, make absolute on first hover?
+   Or just place it manually. 
+   
+   Let's try to keep it simple:
+   We will let the HTML flow place it initially. 
+   BUT, the JS will likely set position: absolute when it moves.
+*/
+
+.celebration img {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    margin-top: 20px;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    color: #ff4d4d;
+    text-decoration: none;
+}
