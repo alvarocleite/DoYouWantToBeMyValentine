@@ -3,17 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Be My Valentine?</title>
+    <title>Be My Valentine? - The Unclickable No Button Game</title>
+    <meta name="description" content="A fun and interactive way to ask someone to be your Valentine. Features a cheeky 'No' button that runs away and a personalized greeting!">
+    <meta name="keywords" content="Valentine, Valentine's Day, Be My Valentine, Interactive, Game, Fun, Romance">
+    <meta name="author" content="Álvaro Leite">
+
+    <link rel="canonical" href="https://alvarocleite.github.io/DoYouWantToBeMyValentine/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://alvarocleite.github.io/DoYouWantToBeMyValentine/">
+    <meta property="og:title" content="Be My Valentine? - The Unclickable No Button Game">
+    <meta property="og:description" content="Try to click 'No'... I dare you! A fun interactive Valentine's proposal site.">
+    <meta property="og:image" content="https://alvarocleite.github.io/DoYouWantToBeMyValentine/preview.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://alvarocleite.github.io/DoYouWantToBeMyValentine/">
+    <meta property="twitter:title" content="Be My Valentine? - The Unclickable No Button Game">
+    <meta property="twitter:description" content="Try to click 'No'... I dare you! A fun interactive Valentine's proposal site.">
+    <meta property="twitter:image" content="https://alvarocleite.github.io/DoYouWantToBeMyValentine/preview.png">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❤️</text></svg>">
+    
     <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Do You Want to Be My Valentine?",
+      "operatingSystem": "Web",
+      "applicationCategory": "GameApplication",
+      "description": "An interactive web app to ask someone to be your Valentine with a runaway 'No' button.",
+      "author": {
+        "@type": "Person",
+        "name": "Álvaro Leite"
+      },
+      "url": "https://alvarocleite.github.io/DoYouWantToBeMyValentine/"
+    }
+    </script>
 </head>
 <body>
-    <div class="container">
+    <main class="container">
         <h1 id="question">Do You Want to Be My Valentine?</h1>
         <div class="buttons">
             <button id="yes-btn">Yes</button>
             <button id="no-btn">No</button>
         </div>
-    </div>
+        <br>
+        <a href="instructions.html" style="font-size: 0.8rem; color: #ff4d4d; text-decoration: none; opacity: 0.7;">How to personalize?</a>
+    </main>
+    <footer class="footer">
+        Made with 💙 in the <a href="https://github.com/alvarocleite/DoYouWantToBeMyValentine" target="_blank">open</a> by <a href="https://www.linkedin.com/in/alvaro-leite/" target="_blank">Álvaro</a>
+    </footer>
     <script src="js/main.js"></script>
 </body>
 </html>

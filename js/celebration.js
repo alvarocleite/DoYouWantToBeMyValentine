@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const img = document.createElement('img');
     img.src = selectedGif;
     img.alt = "Celebration GIF";
+    img.loading = "lazy";
     
     gifContainer.appendChild(img);
 });
