@@ -23,6 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
             spacer.style.display = 'inline-block'; // Maintain inline-block behavior if needed
             // Insert spacer where the button currently is to prevent layout shift
             noBtn.parentNode.insertBefore(spacer, noBtn);
+
+            // Explicitly set width/height to prevent resizing when position becomes fixed
+            noBtn.style.width = `${noBtn.offsetWidth}px`;
+            noBtn.style.height = `${noBtn.offsetHeight}px`;
+            
             hasMoved = true;
         }
 
