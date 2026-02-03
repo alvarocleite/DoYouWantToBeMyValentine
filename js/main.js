@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Dynamic Name Injection
+    // Dynamic Name Injection
     const urlParams = new URLSearchParams(window.location.search);
     const name = urlParams.get('name') || 'Sweetheart';
     document.getElementById('question').innerText = `${name}, Do You Want to Be My Valentine?`;
@@ -8,13 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const yesBtn = document.getElementById('yes-btn');
     let hasMoved = false;
 
-    // 2. Success State
+    // Success State
     yesBtn.addEventListener('click', () => {
         window.location.href = 'celebration.html';
     });
 
-    // 3. The Unclickable "No" Button
-    const moveButton = () => {
+    // The Unclickable "No" Button
+    const moveButton = (cursorX, cursorY) => {
         if (!hasMoved) {
             // Create a spacer to hold the layout position
             const spacer = document.createElement('div');
@@ -48,8 +48,43 @@ document.addEventListener('DOMContentLoaded', () => {
         const maxLeft = viewportWidth - btnWidth - padding;
         const maxTop = viewportHeight - btnHeight - padding;
 
-        const newLeft = Math.max(padding, Math.random() * maxLeft);
-        const newTop = Math.max(padding, Math.random() * maxTop);
+        let newLeft, newTop;
+        let bestLeft, bestTop;
+        let maxFoundDistance = -1;
+        let attempts = 0;
+        
+        // Use 500px or 60% of the smaller viewport dimension, whichever is smaller.
+        // This ensures the button is still "hard to get" on mobile without being mathematically impossible.
+        const minDistance = Math.min(500, Math.min(viewportWidth, viewportHeight) * 0.6);
+
+        // Try up to 100 times to find a position at least minDistance away from the cursor
+        while (attempts < 100) {
+            const tempLeft = Math.max(padding, Math.random() * maxLeft);
+            const tempTop = Math.max(padding, Math.random() * maxTop);
+            
+            let currentDistance;
+            if (cursorX !== undefined && cursorY !== undefined) {
+                const newCenterX = tempLeft + btnWidth / 2;
+                const newCenterY = tempTop + btnHeight / 2;
+                currentDistance = Math.hypot(newCenterX - cursorX, newCenterY - cursorY);
+            } else {
+                currentDistance = minDistance + 1; // Satisfy condition if no cursor info
+            }
+
+            if (currentDistance > maxFoundDistance) {
+                maxFoundDistance = currentDistance;
+                bestLeft = tempLeft;
+                bestTop = tempTop;
+            }
+
+            if (maxFoundDistance >= minDistance) {
+                break;
+            }
+            attempts++;
+        }
+
+        newLeft = bestLeft;
+        newTop = bestTop;
 
         // Apply new position
         noBtn.style.position = 'fixed'; // Use fixed to position relative to viewport
@@ -66,13 +101,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const distance = Math.hypot(e.clientX - btnCenterX, e.clientY - btnCenterY);
 
         if (distance < 100) {
-            moveButton();
+            moveButton(e.clientX, e.clientY);
         }
     });
     
     // Trigger on touchstart (mobile) - before click registers
     noBtn.addEventListener('touchstart', (e) => {
         e.preventDefault(); // Prevent click
-        moveButton();
+        const touch = e.touches[0];
+        moveButton(touch.clientX, touch.clientY);
     });
 });

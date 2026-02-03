@@ -2,11 +2,17 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #ffe6e6;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
-    overflow: hidden; /* Prevent scrollbars when button moves */
+}
+
+/* Prevent scrollbars only on pages that need it (main game) */
+body.no-scroll {
+    height: 100vh;
+    overflow: hidden;
 }
 
 .container {
@@ -15,6 +21,10 @@ body {
     padding: 2rem;
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    max-width: 90%;
+    width: 100%;
+    margin: 20px;
+    box-sizing: border-box;
 }
 
 h1 {
@@ -110,6 +120,14 @@ button {
     margin-top: 20px;
     color: #ff4d4d;
     text-decoration: none;
+}
+
+.links {
+    margin-top: 1.5rem;
+}
+
+.links p {
+    margin-bottom: 0.5rem;
 }
 
 .footer {
