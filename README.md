@@ -6,6 +6,8 @@ Are you afraid of rejection? Do you have a crush but lack the self-esteem to han
 
 This is a scientifically engineered, highly advanced, commitment-forcing web application. It guarantees a **100% success rate** for your Valentine proposals. How? By simply removing free will from the equation.
 
+![Do You Want To Be My Valentine?](img/DoYouWantToBeMyValentine.png)
+
 ## 🚀 How It Works
 
 1.  **The Illusion of Choice:** We present the target with two buttons: "Yes" and "No".
