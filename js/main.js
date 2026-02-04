@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const noBtn = document.getElementById('no-btn');
     const yesBtn = document.getElementById('yes-btn');
     let hasMoved = false;
+    let moveCount = 0;
 
     // Success State
     yesBtn.addEventListener('click', () => {
@@ -15,6 +16,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // The Unclickable "No" Button
     const moveButton = (cursorX, cursorY) => {
+        moveCount++;
+        
+        // Grow Yes button after 6 moves
+        if (moveCount > 6) {
+            const currentScale = 1 + (moveCount - 6) * 0.05;
+            yesBtn.style.transform = `scale(${currentScale})`;
+            yesBtn.style.transition = 'transform 0.2s ease';
+        }
+
         if (!hasMoved) {
             // Create a spacer to hold the layout position
             const spacer = document.createElement('div');
