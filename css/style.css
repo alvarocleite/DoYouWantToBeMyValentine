@@ -50,6 +50,8 @@ button {
     cursor: pointer;
     transition: transform 0.1s ease;
     will-change: transform;
+    position: relative;
+    z-index: 2;
 }
 
 #yes-btn {
@@ -138,6 +140,10 @@ button {
     text-align: center;
     font-size: 0.9rem;
     color: #666;
+}
+
+.footer p {
+    margin: 5px 0;
 }
 
 .footer a {
