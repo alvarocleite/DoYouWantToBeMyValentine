@@ -15,6 +15,12 @@ This is a scientifically engineered, highly advanced, commitment-forcing web app
 3.  **The Only Option:** Eventually, out of frustration or amusement, they *will* click "Yes".
 4.  **Celebration:** Confetti! GIFs! Happiness! You are now dating. (Legally binding status: *Questionable*).
 
+## 🎥 Demo
+
+Watch the "No" button in action as it desperately tries to avoid its inevitable fate.
+
+![Site Demo](img/siteGIF.gif)
+
 ## 💌 Personalize The Trap
 
 You can customize the question to address your specific victim—er, *Valentine*. Just add a `?name=` parameter to the URL.
