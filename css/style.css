@@ -1,6 +1,22 @@
+:root {
+    --bg-color: #ffe6e6;
+    --primary-color: #ff4d4d;
+    --primary-hover: #e60000;
+    --text-color: #333;
+    --footer-link-color: #ff4d4d;
+    --card-bg: rgba(255, 255, 255, 0.8);
+}
+
+body.theme-marry {
+    --bg-color: #ffeba2;
+    --primary-color: #ffd700;
+    --primary-hover: #d4af37;
+    --footer-link-color: #fbc02d;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #ffe6e6;
+    background-color: var(--bg-color);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -17,7 +33,7 @@ body.no-scroll {
 
 .container {
     text-align: center;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: var(--card-bg);
     padding: 2rem;
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -28,7 +44,7 @@ body.no-scroll {
 }
 
 h1 {
-    color: #ff4d4d;
+    color: var(--primary-color);
     margin-bottom: 2rem;
 }
 
@@ -55,13 +71,17 @@ button {
 }
 
 #yes-btn {
-    background-color: #ff4d4d;
+    background-color: var(--primary-color);
     color: white;
     transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
+body.theme-marry #yes-btn {
+    color: #333;
+}
+
 #yes-btn:hover {
-    background-color: #e60000;
+    background-color: var(--primary-hover);
 }
 
 #no-btn {
@@ -69,27 +89,6 @@ button {
     color: #333;
     transition: all 0.2s ease; 
 }
-
-/* Initial position for No button - slightly tricky with absolute. 
-   Let's actually handle initial layout with JS or just keep it in flow initially 
-   and switch to absolute on first hover, OR just set it absolute relative to body.
-   For simplicity and "runaway" effect, absolute positioning on the body works best
-   once it starts moving. But for initial layout, we might want it centered.
-   
-   However, the spec says "To achieve the 'unclickable' effect, the button uses absolute positioning."
-*/
-
-/* Resetting #no-btn for initial static layout to look nice next to Yes, 
-   then JS will likely take over absolute positioning. 
-   But wait, if it's absolute, it removes from flow. 
-   Let's style it initially to be roughly in place, or handle layout in JS.
-   Actually, let's keep it simple: Start static, make absolute on first hover?
-   Or just place it manually. 
-   
-   Let's try to keep it simple:
-   We will let the HTML flow place it initially. 
-   BUT, the JS will likely set position: absolute when it moves.
-*/
 
 .celebration img {
     max-width: 100%;
@@ -121,7 +120,7 @@ button {
 .back-link {
     display: inline-block;
     margin-top: 20px;
-    color: #ff4d4d;
+    color: var(--footer-link-color);
     text-decoration: none;
 }
 
@@ -147,7 +146,7 @@ button {
 }
 
 .footer a {
-    color: #ff4d4d;
+    color: var(--footer-link-color);
     text-decoration: none;
     font-weight: bold;
 }

@@ -16,22 +16,31 @@
     <main class="container">
         <h1>How to Personalize</h1>
         <div class="instructions-content">
-            <p>You can add your Valentine's name directly in the URL to make it special!</p>
-            <p>Just add <code>?name=</code> followed by the name at the end of the URL.</p>
+            <p>You can personalize the message and the theme of the page directly in the URL!</p>
+            
+            <h3>1. Add a Name</h3>
+            <p>Add <code>?name=</code> followed by the name at the end of the URL.</p>
+            <pre>?name=Sarah</pre>
+
+            <h3>2. Choose a Theme/Type</h3>
+            <p>Add <code>&type=marry</code> to change the question to "Will You Marry Me?" and use golden colors.</p>
+            <pre>&type=marry</pre>
             
             <h3>Example:</h3>
             
-            <p>If you are using the name Sarah:</p>
-            <pre>https://alvarocleite.github.io/DoYouWantToBeMyValentine/?name=Sarah</pre>
+            <p>A personalized proposal for Sarah:</p>
+            <pre>https://alvarocleite.github.io/DoYouWantToBeMyValentine/?name=Sarah&type=marry</pre>
             
             <p>Try it out and send it to someone special!</p>
         </div>
         <br>
-        <a href="index.html" class="back-link">Go back</a>
+        <a href="index.html" class="back-link" id="back-link">Go back</a>
     </main>
     <footer class="footer">
-        <p><a href="index.html">Back to Home</a></p>
-        <p>Made with 💙 in the <a href="https://github.com/alvarocleite/DoYouWantToBeMyValentine" target="_blank">open</a> - <a href="creator.html">Creator Info</a></p>
+        <p><a href="index.html" id="home-link">Back to Home</a></p>
+        <p>Made with 💙 in the <a href="https://github.com/alvarocleite/DoYouWantToBeMyValentine" target="_blank">open</a> - <a href="creator.html" id="creator-link">Creator Info</a></p>
     </footer>
+    <script src="js/shared.js"></script>
+    <script src="js/instructions.js"></script>
 </body>
 </html>

@@ -1,15 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Configuration ---
-    const CONFIG = {
-        GROWTH_THRESHOLD: 6,
-        GROWTH_RATE: 0.05,
-        PROXIMITY_THRESHOLD: 100,
-        SAFE_PADDING: 20,
-        MIN_DISTANCE_PERCENT: 0.6,
-        MAX_DISTANCE_PX: 500,
-        MAX_SEARCH_ATTEMPTS: 100
-    };
-
     // --- State ---
     const state = {
         hasMoved: false,
@@ -19,27 +8,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- DOM Elements ---
     const noBtn = document.getElementById('no-btn');
     const yesBtn = document.getElementById('yes-btn');
-    const questionEl = document.getElementById('question');
 
     // --- Initialization ---
-    const injectName = () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const name = urlParams.get('name') || 'Sweetheart';
-        questionEl.innerText = `${name}, Do You Want to Be My Valentine?`;
+
+    const initApp = () => {
+        const { name, type } = PageInitializer.run();
+        const questionText = ProposalPresenter.getQuestionText(name, type);
+        ViewManager.updateText('#question', questionText);
     };
 
     // --- Logic Functions ---
 
     const growYesButton = () => {
-        if (state.moveCount <= CONFIG.GROWTH_THRESHOLD) return;
-        
-        const currentScale = 1 + (state.moveCount - CONFIG.GROWTH_THRESHOLD) * CONFIG.GROWTH_RATE;
-        yesBtn.style.transform = `scale(${currentScale})`;
-        yesBtn.style.transition = 'transform 0.2s ease';
+        if (!yesBtn) return;
+        const scale = GameRules.calculateScale(state.moveCount);
+        ViewManager.setElementScale(yesBtn, scale);
     };
 
     const preserveLayout = () => {
-        if (state.hasMoved) return;
+        if (!noBtn || state.hasMoved) return;
 
         // Create a spacer to hold the layout position
         const spacer = document.createElement('div');
@@ -55,68 +42,38 @@ document.addEventListener('DOMContentLoaded', () => {
         state.hasMoved = true;
     };
 
-    const calculateNewPosition = (cursorX, cursorY) => {
-        const viewport = { w: window.innerWidth, h: window.innerHeight };
-        const btn = noBtn.getBoundingClientRect();
-        const padding = CONFIG.SAFE_PADDING;
-
-        const limits = {
-            maxLeft: viewport.w - btn.width - padding,
-            maxTop: viewport.h - btn.height - padding
-        };
-
-        const minRequiredDist = Math.min(
-            CONFIG.MAX_DISTANCE_PX, 
-            Math.min(viewport.w, viewport.h) * CONFIG.MIN_DISTANCE_PERCENT
-        );
-
-        let bestPos = { left: padding, top: padding };
-        let maxFoundDist = -1;
-
-        for (let i = 0; i < CONFIG.MAX_SEARCH_ATTEMPTS; i++) {
-            const tempLeft = Math.max(padding, Math.random() * limits.maxLeft);
-            const tempTop = Math.max(padding, Math.random() * limits.maxTop);
-            
-            let dist;
-            if (cursorX !== undefined && cursorY !== undefined) {
-                const centerX = tempLeft + btn.width / 2;
-                const centerY = tempTop + btn.height / 2;
-                dist = Math.hypot(centerX - cursorX, centerY - cursorY);
-            } else {
-                dist = minRequiredDist + 1;
-            }
-
-            if (dist > maxFoundDist) {
-                maxFoundDist = dist;
-                bestPos = { left: tempLeft, top: tempTop };
-            }
-
-            if (maxFoundDist >= minRequiredDist) break;
-        }
-
-        return bestPos;
-    };
-
-    const moveButton = (cursorX, cursorY) => {
+    const handleButtonMovement = (cursorX, cursorY) => {
+        if (!noBtn) return;
         state.moveCount++;
+        
         growYesButton();
         preserveLayout();
 
-        const { left, top } = calculateNewPosition(cursorX, cursorY);
+        const viewport = { w: window.innerWidth, h: window.innerHeight };
+        const btnRect = noBtn.getBoundingClientRect();
+        const btnSize = { w: btnRect.width, h: btnRect.height };
+        
+        const { left, top } = GameRules.findBestPosition(
+            { x: cursorX, y: cursorY }, 
+            btnSize, 
+            viewport
+        );
 
-        noBtn.style.position = 'fixed';
-        noBtn.style.left = `${left}px`;
-        noBtn.style.top = `${top}px`;
+        ViewManager.setElementPosition(noBtn, left, top);
     };
 
     // --- Event Listeners ---
 
-    yesBtn.addEventListener('click', () => {
-        window.location.href = 'celebration.html';
-    });
+    if (yesBtn) {
+        yesBtn.addEventListener('click', () => {
+            const { raw } = UrlGateway.getParams();
+            window.location.href = UrlGateway.createUrl('celebration.html', raw);
+        });
+    }
 
     let ticking = false;
     document.addEventListener('mousemove', (e) => {
+        if (!noBtn) return;
         if (!ticking) {
             window.requestAnimationFrame(() => {
                 const btnRect = noBtn.getBoundingClientRect();
@@ -124,8 +81,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const centerY = btnRect.top + btnRect.height / 2;
                 const distance = Math.hypot(e.clientX - centerX, e.clientY - centerY);
 
-                if (distance < CONFIG.PROXIMITY_THRESHOLD) {
-                    moveButton(e.clientX, e.clientY);
+                if (distance < GAME_CONFIG.PROXIMITY_THRESHOLD) {
+                    handleButtonMovement(e.clientX, e.clientY);
                 }
                 ticking = false;
             });
@@ -133,12 +90,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    noBtn.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        const touch = e.touches[0];
-        moveButton(touch.clientX, touch.clientY);
-    });
+    if (noBtn) {
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            handleButtonMovement(touch.clientX, touch.clientY);
+        });
+    }
 
     // Run init
-    injectName();
+    initApp();
 });

@@ -9,8 +9,17 @@ document.addEventListener('DOMContentLoaded', () => {
         'https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmx1NDJoeGJ6cmdnZHRueHlkeWh0MzNlYnR1cGRwNmJkemQ1YmlkaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/PuTSgeacS3Z7i/giphy.gif'
     ];
 
-    const CONFETTI_DURATION = 15 * 1000;
-    const CONFETTI_INTERVAL = 250;
+    // --- Configuration ---
+    const CONFIG = {
+        CONFETTI_DURATION: 15 * 1000,
+        CONFETTI_INTERVAL: 250,
+        PARTICLE_COUNT: 50
+    };
+
+    const COLORS = {
+        MARRY: ['#ffd700', '#d4af37', '#fbc02d'],
+        VALENTINE: undefined // Uses default confetti colors
+    };
 
     // --- DOM Elements ---
     const gifContainer = document.getElementById('gif-container');
@@ -18,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Functions ---
 
     const injectRandomGif = () => {
+        if (!gifContainer) return;
         const randomIndex = Math.floor(Math.random() * GIFS.length);
         const img = document.createElement('img');
         img.src = GIFS[randomIndex];
@@ -26,9 +36,17 @@ document.addEventListener('DOMContentLoaded', () => {
         gifContainer.appendChild(img);
     };
 
-    const startConfettiCelebration = () => {
-        const animationEnd = Date.now() + CONFETTI_DURATION;
-        const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+    const startConfettiCelebration = (theme) => {
+        const animationEnd = Date.now() + CONFIG.CONFETTI_DURATION;
+        const isMarry = theme === THEMES.MARRY;
+        
+        const defaults = { 
+            startVelocity: 30, 
+            spread: 360, 
+            ticks: 60, 
+            zIndex: 0,
+            colors: isMarry ? COLORS.MARRY : COLORS.VALENTINE
+        };
 
         const randomInRange = (min, max) => Math.random() * (max - min) + min;
 
@@ -39,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return clearInterval(interval);
             }
 
-            const particleCount = 50 * (timeLeft / CONFETTI_DURATION);
+            const particleCount = CONFIG.PARTICLE_COUNT * (timeLeft / CONFIG.CONFETTI_DURATION);
             
             // Fire from both sides
             confetti({ 
@@ -52,10 +70,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 particleCount, 
                 origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } 
             });
-        }, CONFETTI_INTERVAL);
+        }, CONFIG.CONFETTI_INTERVAL);
     };
 
     // --- Initialization ---
-    injectRandomGif();
-    startConfettiCelebration();
+    const initCelebration = () => {
+        const { type } = PageInitializer.run();
+
+        injectRandomGif();
+        startConfettiCelebration(type);
+    };
+
+    initCelebration();
 });
