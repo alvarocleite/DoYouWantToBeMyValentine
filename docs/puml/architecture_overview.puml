@@ -1,0 +1,28 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+package "Layer 3: Frameworks & Drivers" #FFE6E6 {
+    [ViewManager]
+    [main.js / celebration.js]
+    [index.html / CSS Variables]
+}
+
+package "Layer 2: Interface Adapters" #FFFDE7 {
+    [UrlGateway]
+    [ProposalPresenter]
+    [PageInitializer]
+}
+
+package "Layer 1: Domain" #E6F3FF {
+    [THEMES / PARAMS]
+    [GameRules]
+}
+
+[main.js / celebration.js] --> [PageInitializer]
+[main.js / celebration.js] --> [GameRules]
+[PageInitializer] --> [UrlGateway]
+[PageInitializer] --> [ViewManager]
+[ViewManager] --> [ProposalPresenter]
+[ProposalPresenter] --> [THEMES]
+@enduml

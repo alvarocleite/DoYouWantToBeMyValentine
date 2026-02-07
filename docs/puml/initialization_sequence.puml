@@ -1,0 +1,23 @@
+@startuml
+skinparam shadowing false
+
+actor "User" as User
+participant "Browser (URL)" as URL
+participant "PageInitializer" as Init
+participant "UrlGateway" as Gateway
+participant "ProposalPresenter" as Presenter
+participant "ViewManager" as View
+
+User -> URL : Visits ?name=Sarah&type=marry
+URL -> Init : DOMContentLoaded
+Init -> Gateway : getParams()
+Gateway -> URL : Parse Search Params
+Gateway --> Init : {name, type, raw}
+Init -> View : applyTheme(type)
+View -> Presenter : getThemeClass(type)
+Presenter --> View : "theme-marry"
+View -> URL : Update body class
+Init -> View : preserveParamsInLinks(raw)
+View -> URL : Update <a> tags href
+Init --> Init : return params
+@enduml
